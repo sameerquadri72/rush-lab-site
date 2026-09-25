@@ -44,26 +44,34 @@ Search Console verification.
 
 ## Creator application form
 
-The "Join" section (`#join`) is a real form (name, email, WhatsApp, Instagram
-handle, city, content link, pitch, plus 18+/availability confirmation
-checkboxes) submitted client-side to [Web3Forms](https://web3forms.com/) — a
-free form-backend API, so the form itself is 100% Rush Lab's own HTML/CSS
-with no third-party branding or watermark.
+The "Join" section (`#join`) embeds a [forms.app](https://forms.app/) form
+(free plan: unlimited responses, up to 5 forms) via their JS embed widget,
+loaded from `https://forms.app/cdn/embed.js`. Unlike a plain HTML form, the
+actual fields live on forms.app's platform, not in this repo — the site only
+holds the embed snippet.
 
 **To activate it:**
-1. Go to https://web3forms.com/, enter an email you check, and get a free
-   access key (no account/password needed, free tier is 250 submissions/month).
-2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in **both** `index.html` and
-   `src/index.template.html` (the hidden `access_key` input near the top of
-   the `#apply-form` form) with the real key.
-3. Redeploy. Submissions will then email straight to the inbox tied to that
-   key; view/export them anytime at web3forms.com.
+1. Sign up free at https://forms.app/ and build a form with these fields
+   (matching what the site used to collect directly): full name, email,
+   WhatsApp number, Instagram handle, city, link to best video/reel
+   (optional), a short "why should you be on Rush Lab" text field
+   (optional), and two checkboxes — 18+ confirmation and "can attend
+   in-person filming / agree to be featured."
+2. In forms.app, open **Share → Embed → Inline**, copy the generated
+   `<script>...onload="new formsapp(...)"...</script>` snippet.
+3. In **both** `index.html` and `src/index.template.html`, replace the
+   placeholder script tag inside `#apply-form-embed`'s section — swap
+   `YOUR_FORMS_APP_FORM_ID` and `https://YOUR_ACCOUNT.forms.app` for the real
+   form ID and account subdomain from that snippet.
+4. Redeploy. View/export responses anytime from the forms.app dashboard;
+   free-plan integrations (Google Sheets, Slack, webhooks, Zapier, etc.) can
+   route them further from there.
 
-Until the key is swapped in, the form will show the "Something went wrong"
-error on submit — the Instagram DM link beneath the form still works as a
-fallback either way.
+Until the placeholders are swapped in, the embed will fail to load silently
+— the Instagram DM link beneath it still works as a fallback either way.
 
-If you outgrow the 250/month free tier or want more control (custom
-notification routing, spreadsheet export, webhooks), swap the `fetch()`
-endpoint in the inline `<script>` for a different backend (e.g. Formspree)
-without touching the form's markup or styling.
+Note: unlike the site's own HTML, the form itself renders as forms.app's own
+widget (colors/logo are themeable in their editor, but it isn't literally
+Rush Lab's markup). If `Content-Security-Policy` in `vercel.json`/`build.py`
+ever needs loosening further for forms.app (e.g. a different embed layout),
+update both files together.
