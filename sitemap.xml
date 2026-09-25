@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://rush-lab-site.vercel.app/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/yWdmJB05FNM/maxresdefault.jpg</video:thumbnail_loc>
+      <video:title>Rush Lab Creators Challenge, Part 1: 12 Creators Compete for ₹20,000 in 8 Challenges</video:title>
+      <video:description>12 creators compete in 8 challenges for a ₹20,000 cash prize in the first Rush Lab Creators Challenge. Part 1 covers the Wall Climb and the Rope Course.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/yWdmJB05FNM</video:player_loc>
+      <video:duration>1367</video:duration>
+      <video:publication_date>2026-09-21</video:publication_date>
+    </video:video>
+  </url>
+</urlset>
