@@ -44,34 +44,24 @@ Search Console verification.
 
 ## Creator application form
 
-The "Join" section (`#join`) embeds a [forms.app](https://forms.app/) form
-(free plan: unlimited responses, up to 5 forms) via their JS embed widget,
-loaded from `https://forms.app/cdn/embed.js`. Unlike a plain HTML form, the
-actual fields live on forms.app's platform, not in this repo — the site only
-holds the embed snippet.
+The "Join" section (`#join`) embeds the live "Rush Lab Creator Application"
+[forms.app](https://forms.app/) form (form ID `6ab64149bbd7c68cff473989`,
+free plan: unlimited responses) via their standard JS embed widget
+(`https://cdn.formsapp.io/embed.js`, iframe served from
+`https://share.forms.app`). Unlike a plain HTML form, the fields themselves
+live on forms.app's platform, not in this repo — edit them at
+forms.app if the questions asked need to change.
 
-**To activate it:**
-1. Sign up free at https://forms.app/ and build a form with these fields
-   (matching what the site used to collect directly): full name, email,
-   WhatsApp number, Instagram handle, city, link to best video/reel
-   (optional), a short "why should you be on Rush Lab" text field
-   (optional), and two checkboxes — 18+ confirmation and "can attend
-   in-person filming / agree to be featured."
-2. In forms.app, open **Share → Embed → Inline**, copy the generated
-   `<script>...onload="new formsapp(...)"...</script>` snippet.
-3. In **both** `index.html` and `src/index.template.html`, replace the
-   placeholder script tag inside `#apply-form-embed`'s section — swap
-   `YOUR_FORMS_APP_FORM_ID` and `https://YOUR_ACCOUNT.forms.app` for the real
-   form ID and account subdomain from that snippet.
-4. Redeploy. View/export responses anytime from the forms.app dashboard;
-   free-plan integrations (Google Sheets, Slack, webhooks, Zapier, etc.) can
-   route them further from there.
-
-Until the placeholders are swapped in, the embed will fail to load silently
-— the Instagram DM link beneath it still works as a fallback either way.
+View/export responses anytime from the forms.app dashboard; free-plan
+integrations (Google Sheets, Slack, webhooks, Zapier, etc.) can route them
+further from there. The Instagram DM link beneath the embed remains as a
+fallback.
 
 Note: unlike the site's own HTML, the form itself renders as forms.app's own
 widget (colors/logo are themeable in their editor, but it isn't literally
-Rush Lab's markup). If `Content-Security-Policy` in `vercel.json`/`build.py`
-ever needs loosening further for forms.app (e.g. a different embed layout),
-update both files together.
+Rush Lab's markup, and the free plan shows "Made with forms.app"). If you
+regenerate the embed snippet from forms.app (new form ID, or they change
+their CDN/iframe host), update it in **both** `index.html` and
+`src/index.template.html`, and keep `Content-Security-Policy` in
+`vercel.json`/`build.py` (`script-src`/`frame-src`/`img-src`/`connect-src`)
+pointed at whatever hosts the new snippet actually uses.
