@@ -14,7 +14,7 @@ root = Path(__file__).parent
 dist = root / "dist"
 site = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else None
 
-html = (root / "index.template.html").read_text(encoding="utf-8")
+html = (root / "src" / "index.template.html").read_text(encoding="utf-8")
 if site:
     html = html.replace("{{SITE_URL}}", site)
     html = html.replace("<!--CANONICAL-->", "").replace("<!--/CANONICAL-->", "")
@@ -27,6 +27,9 @@ dist.mkdir()
 (dist / "index.html").write_text(html, encoding="utf-8")
 
 for f in root.glob("google*.html"):
+    shutil.copy(f, dist / f.name)
+
+for f in root.glob("[0-9a-f]" * 32 + ".txt"):
     shutil.copy(f, dist / f.name)
 
 for name in ("logo.png",):
@@ -67,7 +70,11 @@ if site:
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; frame-src https://www.youtube.com; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests" }
       ]
     }
   ]
