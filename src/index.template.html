@@ -163,6 +163,29 @@ h2 { margin: 0 0 12px; font: 700 clamp(26px, 5vw, 38px)/1.15 var(--font-head); t
 
 .join { text-align: center; background: linear-gradient(135deg, rgba(15, 154, 222, .16), rgba(226, 21, 19, .16)); border: 1px solid var(--line); border-radius: 24px; padding: 40px 20px; }
 .join p { max-width: 520px; margin: 0 auto 22px; color: var(--muted); }
+.join .fallback { margin: 18px auto 0; font-size: 14px; }
+
+.apply-form { text-align: left; max-width: 560px; margin: 0 auto; display: grid; gap: 16px; }
+.form-grid { display: grid; gap: 16px; }
+@media (min-width: 560px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+.field { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.field span { font-weight: 600; }
+.field b { color: var(--red); font-weight: 700; margin-left: 2px; }
+.field input, .field textarea {
+  font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 12px; width: 100%;
+}
+.field textarea { resize: vertical; min-height: 80px; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.checkbox-row { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--muted); text-align: left; }
+.checkbox-row input { margin-top: 3px; flex-shrink: 0; }
+.checkbox-row input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.apply-form .btn { justify-self: start; }
+.apply-form button[disabled] { opacity: .6; cursor: not-allowed; }
+.form-status { min-height: 20px; font-size: 14px; margin: 0; }
+.form-status.ok { color: #4ade80; }
+.form-status.err { color: var(--red); }
 
 footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); margin-top: 24px; position: relative; z-index: 1; }
 footer .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; justify-content: space-between; }
@@ -337,8 +360,58 @@ footer a:hover { text-decoration: underline; }
     <div class="wrap">
       <div class="join">
         <h2 id="join-h">Want to be on the next one?</h2>
-        <p>Rush Lab is looking for creators for what comes next. Send us a message on Instagram to get on the list.</p>
-        <a class="btn primary" href="https://www.instagram.com/rushlab_official/" rel="noopener">Message us on Instagram</a>
+        <p>Rush Lab is looking for creators for what comes next. Fill out the form below and we will reach out if you are a fit.</p>
+        <form id="apply-form" class="apply-form" novalidate>
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+          <input type="hidden" name="subject" value="New Rush Lab creator application">
+          <input type="hidden" name="from_name" value="Rush Lab site">
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Full name<b>*</b></span>
+              <input type="text" name="name" required autocomplete="name">
+            </label>
+            <label class="field">
+              <span>Email<b>*</b></span>
+              <input type="email" name="email" required autocomplete="email">
+            </label>
+            <label class="field">
+              <span>WhatsApp number<b>*</b></span>
+              <input type="tel" name="phone" required autocomplete="tel">
+            </label>
+            <label class="field">
+              <span>Instagram handle<b>*</b></span>
+              <input type="text" name="instagram" required placeholder="@yourhandle">
+            </label>
+            <label class="field">
+              <span>City<b>*</b></span>
+              <input type="text" name="city" required>
+            </label>
+            <label class="field">
+              <span>Link to your best video/reel</span>
+              <input type="url" name="content_link" placeholder="https://">
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Why should you be on Rush Lab?</span>
+            <textarea name="pitch" rows="3" maxlength="500"></textarea>
+          </label>
+
+          <label class="checkbox-row">
+            <input type="checkbox" name="age_confirm" required>
+            <span>I confirm I am 18 years or older.</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="availability_confirm" required>
+            <span>I can attend in-person filming and agree to be featured in Rush Lab content.</span>
+          </label>
+
+          <button class="btn primary" type="submit">Apply to Rush Lab</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+        <p class="fallback sub">Prefer DMs? <a href="https://www.instagram.com/rushlab_official/" rel="noopener">Message us on Instagram</a> instead.</p>
       </div>
     </div>
   </section>
@@ -354,5 +427,38 @@ footer a:hover { text-decoration: underline; }
     </span>
   </div>
 </footer>
+
+<script>
+(function () {
+  var form = document.getElementById('apply-form');
+  if (!form) return;
+  var status = form.querySelector('.form-status');
+  var button = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    button.disabled = true;
+    status.textContent = 'Sending...';
+    status.className = 'form-status';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.success) throw new Error(data.message || 'Submission failed');
+        form.reset();
+        status.textContent = 'Thanks! We got your application and will reach out if you are a fit.';
+        status.className = 'form-status ok';
+      })
+      .catch(function () {
+        status.textContent = 'Something went wrong. Please DM us on Instagram instead.';
+        status.className = 'form-status err';
+      })
+      .finally(function () { button.disabled = false; });
+  });
+})();
+</script>
 </body>
 </html>

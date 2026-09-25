@@ -41,3 +41,29 @@ Search Console verification.
   description, OG/Twitter tags, JSON-LD). `build.py <site-url>` only
   rewrites the canonical/og:url/JSON-LD `logo` URL from the template; it
   does not diff the two files.
+
+## Creator application form
+
+The "Join" section (`#join`) is a real form (name, email, WhatsApp, Instagram
+handle, city, content link, pitch, plus 18+/availability confirmation
+checkboxes) submitted client-side to [Web3Forms](https://web3forms.com/) — a
+free form-backend API, so the form itself is 100% Rush Lab's own HTML/CSS
+with no third-party branding or watermark.
+
+**To activate it:**
+1. Go to https://web3forms.com/, enter an email you check, and get a free
+   access key (no account/password needed, free tier is 250 submissions/month).
+2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in **both** `index.html` and
+   `src/index.template.html` (the hidden `access_key` input near the top of
+   the `#apply-form` form) with the real key.
+3. Redeploy. Submissions will then email straight to the inbox tied to that
+   key; view/export them anytime at web3forms.com.
+
+Until the key is swapped in, the form will show the "Something went wrong"
+error on submit — the Instagram DM link beneath the form still works as a
+fallback either way.
+
+If you outgrow the 250/month free tier or want more control (custom
+notification routing, spreadsheet export, webhooks), swap the `fetch()`
+endpoint in the inline `<script>` for a different backend (e.g. Formspree)
+without touching the form's markup or styling.
