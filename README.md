@@ -44,24 +44,20 @@ Search Console verification.
 
 ## Creator application form
 
-The "Join" section (`#join`) embeds the live "Rush Lab Creator Application"
-[forms.app](https://forms.app/) form (form ID `6ab64149bbd7c68cff473989`,
-free plan: unlimited responses) via their standard JS embed widget
-(`https://cdn.formsapp.io/embed.js`, iframe served from
-`https://share.forms.app`). Unlike a plain HTML form, the fields themselves
-live on forms.app's platform, not in this repo — edit them at
-forms.app if the questions asked need to change.
+The "Join" section (`#join`) is Rush Lab's own HTML/CSS form (no third-party
+branding), submitted client-side via `fetch()` to
+[Web3Forms](https://web3forms.com/) (free tier: 250 submissions/month). The
+access key is already wired in and live.
 
-View/export responses anytime from the forms.app dashboard; free-plan
-integrations (Google Sheets, Slack, webhooks, Zapier, etc.) can route them
-further from there. The Instagram DM link beneath the embed remains as a
-fallback.
+Fields: first name, last name, email, WhatsApp number, Instagram username
+and city (all required), plus an optional link to a video/reel. A
+highlighted callout above the fields tells applicants they don't need
+Instagram or any social media to apply — the Instagram field stays required
+as a text input, so someone without one just types "N/A".
 
-Note: unlike the site's own HTML, the form itself renders as forms.app's own
-widget (colors/logo are themeable in their editor, but it isn't literally
-Rush Lab's markup, and the free plan shows "Made with forms.app"). If you
-regenerate the embed snippet from forms.app (new form ID, or they change
-their CDN/iframe host), update it in **both** `index.html` and
-`src/index.template.html`, and keep `Content-Security-Policy` in
-`vercel.json`/`build.py` (`script-src`/`frame-src`/`img-src`/`connect-src`)
-pointed at whatever hosts the new snippet actually uses.
+Submissions email straight to the inbox behind the access key; view/export
+them anytime at web3forms.com. The Instagram DM link beneath the form
+remains as a fallback. If you outgrow the 250/month free tier or want more
+control (custom notification routing, spreadsheet export, webhooks), swap
+the `fetch()` endpoint in the inline `<script>` for a different backend
+without touching the form's markup or styling.
