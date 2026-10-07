@@ -46,7 +46,7 @@ if site:
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>{site}/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/yWdmJB05FNM/maxresdefault.jpg</video:thumbnail_loc>
       <video:title>Rush Lab Creators Challenge, Part 1: 12 Creators Compete for ₹20,000 in 8 Challenges</video:title>
@@ -64,6 +64,20 @@ if site:
     """{
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/logo.png" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "rush-lab-site.vercel.app" }],
+      "destination": "https://rushlab.online/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "rush-lab-site-sams-projects-79b14c62.vercel.app" }],
+      "destination": "https://rushlab.online/:path*",
+      "permanent": true
+    }
   ],
   "headers": [
     {

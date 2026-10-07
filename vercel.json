@@ -2,6 +2,20 @@
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/logo.png" }
   ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "rush-lab-site.vercel.app" }],
+      "destination": "https://rushlab.online/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "rush-lab-site-sams-projects-79b14c62.vercel.app" }],
+      "destination": "https://rushlab.online/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

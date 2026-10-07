@@ -1,7 +1,8 @@
 # Rush Lab site
 
-One-page site for Rush Lab (https://rush-lab-site.vercel.app), deployed on
-Vercel from this repo.
+One-page site for Rush Lab (https://rushlab.online), deployed on Vercel from
+this repo. The old `rush-lab-site.vercel.app` / `rush-lab-site-sams-projects-79b14c62.vercel.app`
+URLs still work but 301-redirect to the custom domain (see `vercel.json`).
 
 ## Layout
 
@@ -20,8 +21,30 @@ served as-is); if Vercel prompts for one when linking, leave build/install
 commands empty and set the output directory to `.` (repo root).
 
 Keep `googleb2dcc8f8a00336b5.html` and the `google-site-verification` meta
-tag in `index.html` in place — both are required for the site's Google
-Search Console verification.
+tag in `index.html` in place — they verify the *old* `rush-lab-site.vercel.app`
+Search Console property. The custom domain `rushlab.online` is a separate
+property and needs its own verification (DNS TXT at Namecheap is easiest
+since it covers the apex + `www` + any future subdomain in one shot) — add
+it in Search Console under a new "Domain" property.
+
+## Custom domain (rushlab.online)
+
+Bought via Namecheap, attached to the `rush-lab-site` Vercel project
+(`rushlab.online` + `www.rushlab.online` → redirects to the apex). DNS is
+still hosted at Namecheap (nameservers unchanged), so these records need to
+exist in Namecheap's **Advanced DNS** tab for the domain to resolve to
+Vercel:
+
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A | `@` | `76.76.21.21` | Automatic |
+| CNAME | `www` | `cname.vercel-dns.com.` | Automatic |
+
+Remove any existing Namecheap "Parking Page" A/CNAME records for `@`/`www`
+first — Vercel's won't take effect if they're still there. DNS propagation
+can take a few minutes up to ~24h; `https://rushlab.online` will start
+working once it does. Vercel auto-issues the SSL certificate once DNS
+resolves correctly — no action needed for that part.
 
 ## SEO / technical notes
 
