@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://rushlab.online/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/yWdmJB05FNM/maxresdefault.jpg</video:thumbnail_loc>
       <video:title>Rush Lab Creators Challenge, Part 1: 12 Creators Compete for ₹20,000 in 8 Challenges</video:title>
@@ -10,6 +10,14 @@
       <video:player_loc>https://www.youtube.com/embed/yWdmJB05FNM</video:player_loc>
       <video:duration>1367</video:duration>
       <video:publication_date>2026-09-21</video:publication_date>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/mOQPJsyBzuE/maxresdefault.jpg</video:thumbnail_loc>
+      <video:title>Find 2 Hidden Keys to Win ₹20,000! | Rush Lab Episode 1 Part 2</video:title>
+      <video:description>Part 2 of the first Rush Lab Creators Challenge. Team Orange and Team Neon battle through obstacle, water and balance challenges before the hidden-keys finale. Abdul Wahid wins the ₹20,000 cash prize.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/mOQPJsyBzuE</video:player_loc>
+      <video:duration>1304</video:duration>
+      <video:publication_date>2026-10-09</video:publication_date>
     </video:video>
   </url>
 </urlset>
